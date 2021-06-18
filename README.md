@@ -12,6 +12,8 @@ Semua user bisa membuat database, otomatis user tersebut memiliki permission unt
 ### CREATE DATABASE
 #### server_database
 ```c
+char *token;
+token = strtok(buffer, " ");
 if(strcmp(token, "create_db")==0){
             printf("NAMA : %s\n",buffer+10 );
             token = strtok(buffer+10, " ");
@@ -28,7 +30,7 @@ if(strcmp(token, "create_db")==0){
             }
         }
 ```
-
+Setelah pesan diterima oleh server di client ,pesan dipotong menjadi _substring_ menggunakan `strtok(buffer, " ")` untuk kemudian disimpan di `token` . Kemudian di cek menggunakan `if(strcmp(token, "create_db")==0)` apabila sesuai maka pertama-tama nama database disimpan menggunakan `token = strtok(buffer+10, " ");` kemudian dilakukan  _spawning process_ dengan `fork` dimana `char alamatCreate[50]={"\0"}` diisi dengan 2 string yang akan menjadi bagian dari substring `alamatCreate` yakni `database_path` dan `token` dengan `strcat()` kemudian dijalankan progam membuat directory baru dengan _path_ dari `alamatCreate` dengan fungsi `execv("/bin/mkdir", argv)`
 #### client_database
 ```c
 while(1){
