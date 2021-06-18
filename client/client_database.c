@@ -10,18 +10,19 @@
 char pesan[50]={0};
 
 void sqlCreate(int sock){
-    char namaDB[50]="create_db";
+    char namaDB[50]={"\0"};
+    strcat(namaDB,"create_db");
     strcat(namaDB, pesan+15);
-    printf("%s\n",namaDB);
     send(sock,namaDB,strlen(namaDB),0);
-    
+    printf("SEND %s\n",namaDB);
 }
 
 void sqlDrop(int sock){
-    char namaDB[50]="drop_db";
+    char namaDB[50]={"\0"};
+    strcat(namaDB,"drop_db");
     strcat(namaDB, pesan+13);
-    printf("%s\n",namaDB);
     send(sock,namaDB,strlen(namaDB),0);
+    printf("SEND %s\n",namaDB);
     
 }
 
@@ -53,11 +54,12 @@ int main(int argc, char const *argv[]) {
 
     // fungsi yg dipakai
     while(1){
+        
         gets(pesan);
         // printf("%s", pesan);
         char *token;
         token = strtok(pesan, " ");
-        printf("%s", pesan);
+        // printf("%s", pesan);
         if(strcmp("CREATE", pesan)==0){
             sqlCreate(sock);
         }
@@ -65,6 +67,7 @@ int main(int argc, char const *argv[]) {
             sqlDrop(sock);
         }
         else send(sock,"gagal",strlen("gagal"),0);
+        strcpy(pesan, "");
     }
     return 0;
 }
