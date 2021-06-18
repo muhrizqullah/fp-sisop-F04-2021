@@ -52,13 +52,41 @@ int main(int argc, char const *argv[]) {
     while(1) {
         new_fd = accept(server_fd, (struct sockaddr *)&new_addr, &addrlen);
     }
-    int valread;
-    char buffer[1024]={0};
-    char *hello = "Hello from server";
+    
+    while (1)
+    {
+        valread = read( new_fd, buffer, 1024);
+        printf("%s\n",buffer );
+        char *token, *token2;
+        token = strtok(buffer, " ");
+        if(strcmp(token, "create_db")==0){
+            token = strtok(buffer+10, " ");
+            int child_create = fork();
+            if (child_create < 0) exit(EXIT_FAILURE);
+            if (child_create == 0) {
+                char alamatCreate[50]={"\0"};
+                strcat(alamatCreate, database_path);
+                // strcat(alamatCreate, "/");
+                strcat(alamatCreate, token);
+                printf("%s\n", alamatCreate);
+                char *argv[] = {"mkdir", "-p", alamatCreate, NULL};
+                execv("/bin/mkdir", argv);
+            }
+        }
 
-    valread = read( new_socket , buffer, 1024);
-    printf("%s\n",buffer );
-    send(new_socket , hello , strlen(hello) , 0 );
-    printf("Hello message sent\n");
+        if(strcmp(token, "drop_db")==0){
+            token = strtok(buffer+8, " ");
+            int child_create = fork();
+            if (child_create < 0) exit(EXIT_FAILURE);
+            if (child_create == 0) {
+                char alamatCreate[50]={"\0"};
+                strcat(alamatCreate, database_path);
+                strcat(alamatCreate, token);
+                printf("%s\n", alamatCreate);
+                char *argv[] = {"rmdir", alamatCreate, NULL};
+                execv("/bin/rmdir", argv);
+            }
+        }
+    }
     return 0;
 }
