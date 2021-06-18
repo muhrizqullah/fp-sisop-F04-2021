@@ -120,10 +120,14 @@ Pada prosedur `void sqlDrop(int sock)` dengan menggunakan `strcat(namaDB,"drop_d
 ### Screenshot
 Awal
 <img alt="awal" src="FOTO/1.png">
+
 Setelah CREATE
 <img alt="create" src="FOTO/2.png">
+
 setelah DROP
 <img alt="awal" src="FOTO/3.png">
+
 ### Kendala
 Tidak Tahu Harus berbuat apa~
+
 <img alt="kendala" src="FOTO/kendala.jpg">
