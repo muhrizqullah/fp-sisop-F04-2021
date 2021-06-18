@@ -28,7 +28,27 @@ if(strcmp(token, "create_db")==0){
             }
         }
 ```
+
 #### client_database
+```c
+while(1){
+        
+        gets(pesan);
+        // printf("%s", pesan);
+        char *token;
+        token = strtok(pesan, " ");
+        // printf("%s", pesan);
+        if(strcmp("CREATE", pesan)==0){
+            sqlCreate(sock);
+        }
+        else if (strcmp("DROP", pesan)==0){
+            sqlDrop(sock);
+        }
+        else send(sock,"gagal",strlen("gagal"),0);
+        strcpy(pesan, "");
+    }
+```
+Pertama client diminta untuk menginput command yang akan dijalankan pada server,kemudian dengan `token = strtok(pesan, " ");` pesan diambil _substringnya_ untuk di cek isi pesannya, apabila setelah di cek menggunakan `strcmp("CREATE", pesan)==0`/ isi pesan mengandung kata _create_ maka akan memanggil prosedur `sqlCreate(sock)` 
 ```c
 void sqlCreate(int sock){
     char namaDB[50]={"\0"};
@@ -38,7 +58,7 @@ void sqlCreate(int sock){
     printf("SEND %s\n",namaDB);
 }
 ```
-
+Pada prosedur `void sqlCreate(int sock)` dengan menggunakan `strcat(namaDB,"create_db")` , `namaDB` di isi dengan 2 _substring_ yankni `create_db` dan `pesan+15` yang kemudian `namaDB` akan berisi create_db namaDB yang akan dikirim ke server
 ### DROP DATABASE
 a
 ### Screenshot
