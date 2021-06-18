@@ -7,6 +7,8 @@
 #include <errno.h>
 #define PORT 8080
 
+char database_path[100] = "databases/";
+
 int create_socket(){
     struct sockaddr_in address;
     int fd;
