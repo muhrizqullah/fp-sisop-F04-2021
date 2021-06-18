@@ -61,10 +61,22 @@ int main(int argc, char const *argv[]) {
         token = strtok(pesan, " ");
         // printf("%s", pesan);
         if(strcmp("CREATE", pesan)==0){
-            sqlCreate(sock);
+            char buffer[1024] = {0};
+            strncat(buffer, pesan+7, 4);
+            //printf("buff %s\n", buffer);
+            if(strcmp("DATA", buffer)==0){
+                sqlCreate(sock);
+            }
+            if(strcmp("USER", buffer)==0){
+                printf("user\n");
+            }
+
         }
         else if (strcmp("DROP", pesan)==0){
             sqlDrop(sock);
+        }
+        else if (strcmp("EXIT", pesan)==0){
+            return 0;
         }
         else send(sock,"gagal",strlen("gagal"),0);
         strcpy(pesan, "");
